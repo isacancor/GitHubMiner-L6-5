@@ -3,6 +3,9 @@ package aiss.githubminer.service;
 import aiss.githubminer.githubmodel.Comment2;
 import aiss.githubminer.githubmodel.Commit2;
 import aiss.githubminer.githubmodel.Project2;
+import aiss.githubminer.model.Comment;
+import aiss.githubminer.model.Commit;
+import aiss.githubminer.model.Project;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -56,7 +59,7 @@ class GitHubServiceTest {
     // Project
     @Test
     void getProject() {
-        Project2 project = service.getProject(owner, repo);
+        Project project = service.getProject(owner, repo);
         assertEquals(project.getId(), "1148753", "The id does not match");
         assertEquals(project.getName(), "spring-framework", "The name does not match");
         assertEquals(project.getWebUrl(), "https://github.com/spring-projects/spring-framework",
@@ -82,9 +85,9 @@ class GitHubServiceTest {
     void getCommitsPagination() {
         Integer since = sinceCommitsDefault;
         Integer maxPage = 9;
-        List<Commit2> commits = service.getCommitsPagination(owner, repo, since, maxPage);
+        List<Commit> commits = service.getCommitsPagination(owner, repo, since, maxPage);
         ZonedDateTime sinceCommit = ZonedDateTime.now().minusDays(since);
-        for( Commit2 commit: commits) {
+        for( Commit commit: commits) {
             ZonedDateTime date = ZonedDateTime.parse(commit.getCommittedDate());
             assertTrue(date.isAfter(sinceCommit),
                     "The commit date can not be earlier than the specified date in sinceCommit");
@@ -118,7 +121,7 @@ class GitHubServiceTest {
     @Test
     void getCommentsPagination() {
         Integer maxPage = 2;
-        List<Comment2> comments = service.getCommentsPagination(owner, repo, issueId, maxPage);
+        List<Comment> comments = service.getCommentsPagination(owner, repo, issueId, maxPage);
 
         // 30 = num elements per page (default value)
         assertTrue(comments.size() <= 30*maxPagesDefault,

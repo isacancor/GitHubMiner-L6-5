@@ -4,6 +4,11 @@ import aiss.githubminer.githubmodel.Comment2;
 import aiss.githubminer.githubmodel.Commit2;
 import aiss.githubminer.githubmodel.Issue2;
 import aiss.githubminer.githubmodel.Project2;
+import aiss.githubminer.model.Comment;
+import aiss.githubminer.model.Commit;
+import aiss.githubminer.model.Issue;
+import aiss.githubminer.model.Project;
+import aiss.githubminer.utils.ParsingModels;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,10 +52,10 @@ public class GitHubService {
             .getLogger(GitHubService.class);
 
 
-    public Project2 getProjectCommitsIssues(String owner, String repo,
+    public Project getProjectCommitsIssues(String owner, String repo,
                                             Integer sinceCommits, Integer sinceIssues, Integer maxPages) {
 
-        Project2 newProject = getProject(owner, repo);
+        Project newProject = getProject(owner, repo);
 
         if(maxPages <= 0){
             maxPages = maxPagesDefault;
@@ -64,13 +69,13 @@ public class GitHubService {
             sinceIssues = sinceIssuesDefault;
         }
 
-        List<Commit2> commits = getCommitsPagination(owner, repo, sinceCommits, maxPages);
+        List<Commit> commits = getCommitsPagination(owner, repo, sinceCommits, maxPages);
 
-        List<Issue2> issues = getIssuesPagination(owner, repo, sinceCommits, maxPages);
+        List<Issue> issues = getIssuesPagination(owner, repo, sinceCommits, maxPages);
 
-        for(Issue2 issue: issues) {
-            Integer id = Integer.valueOf(issue.getRef_id());
-            List<Comment2> comments = getCommentsPagination(owner, repo, id, maxPages);
+        for(Issue issue: issues) {
+            Integer id = Integer.valueOf(issue.getRefId());
+            List<Comment> comments = getCommentsPagination(owner, repo, id, maxPages);
             issue.setComments(comments);
         }
 
@@ -84,7 +89,7 @@ public class GitHubService {
     // ----------------------------------------------------------------------------------------------------
     // Project
 
-    public Project2 getProject(String owner, String repo) {
+    public Project getProject(String owner, String repo) {
         HttpHeaders headers = new HttpHeaders();
 
         // Setting token header
@@ -97,10 +102,13 @@ public class GitHubService {
 
         String uri = baseUri + owner + "/" + repo;
 
-        ResponseEntity<Project2> project = restTemplate
+        ResponseEntity<Project2> projectRE = restTemplate
                 .exchange(uri, HttpMethod.GET, request, Project2.class);
 
-        return project.getBody();
+        Project2 oldProject = projectRE.getBody();
+        Project project = ParsingModels.parseProject(oldProject);
+
+        return project;
     }
 
     // ----------------------------------------------------------------------------------------------------
@@ -117,7 +125,7 @@ public class GitHubService {
     }
 
     //POST baseUri/{owner}/{repoName}[?sinceCommits=5&sinceIssues=30&maxPages=2]
-    public List<Commit2> getCommitsPagination(String owner, String repo, int sinceCommits, int maxPages)
+    public List<Commit> getCommitsPagination(String owner, String repo, int sinceCommits, int maxPages)
     throws HttpClientErrorException {
         HttpHeaders headers = new HttpHeaders();
         if(token!="") {
@@ -155,7 +163,13 @@ public class GitHubService {
             page++;
         }
 
-        return commits;
+        List<Commit> newCommits = new ArrayList<>();
+        for(Commit2 c: commits){
+            Commit newCommit = ParsingModels.parseCommit(c);
+            newCommits.add(newCommit);
+        }
+
+        return newCommits;
     }
 
 
@@ -171,7 +185,7 @@ public class GitHubService {
         return response;
     }
 
-    public List<Issue2> getIssuesPagination(String owner, String repo, int sinceIssues, int maxPages)
+    public List<Issue> getIssuesPagination(String owner, String repo, int sinceIssues, int maxPages)
             throws HttpClientErrorException {
         HttpHeaders headers = new HttpHeaders();
         if(token!="") {
@@ -208,7 +222,13 @@ public class GitHubService {
             page++;
         }
 
-        return issues;
+        List<Issue> newIssues = new ArrayList<>();
+        for(Issue2 i: issues){
+            Issue newIssue = ParsingModels.parseIssue(i);
+            newIssues.add(newIssue);
+        }
+
+        return newIssues;
     }
 
 
@@ -227,7 +247,7 @@ public class GitHubService {
 
 
     //POST baseUri/{owner}/{repoName}[?sinceCommits=5&sinceIssues=30&maxPages=2]
-    public List<Comment2> getCommentsPagination(String owner, String repo, int issueId, int maxPages)
+    public List<Comment> getCommentsPagination(String owner, String repo, int issueId, int maxPages)
             throws HttpClientErrorException {
         HttpHeaders headers = new HttpHeaders();
         if(token!="") {
@@ -260,6 +280,12 @@ public class GitHubService {
             page++;
         }
 
-        return comments;
+        List<Comment> newComments = new ArrayList<>();
+        for(Comment2 c: comments){
+            Comment newComment = ParsingModels.parseComment(c);
+            newComments.add(newComment);
+        }
+
+        return newComments;
     }
 }
