@@ -1,9 +1,9 @@
 package aiss.githubminer.service;
 
-import aiss.githubminer.githubmodel.Comment;
-import aiss.githubminer.githubmodel.Commit;
-import aiss.githubminer.githubmodel.Issue;
-import aiss.githubminer.githubmodel.Project;
+import aiss.githubminer.githubmodel.Comment2;
+import aiss.githubminer.githubmodel.Commit2;
+import aiss.githubminer.githubmodel.Issue2;
+import aiss.githubminer.githubmodel.Project2;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,10 +47,10 @@ public class GitHubService {
             .getLogger(GitHubService.class);
 
 
-    public Project getProjectCommitsIssues(String owner, String repo,
-                              Integer sinceCommits, Integer sinceIssues, Integer maxPages) {
+    public Project2 getProjectCommitsIssues(String owner, String repo,
+                                            Integer sinceCommits, Integer sinceIssues, Integer maxPages) {
 
-        Project newProject = getProject(owner, repo);
+        Project2 newProject = getProject(owner, repo);
 
         if(maxPages <= 0){
             maxPages = maxPagesDefault;
@@ -64,13 +64,13 @@ public class GitHubService {
             sinceIssues = sinceIssuesDefault;
         }
 
-        List<Commit> commits = getCommitsPagination(owner, repo, sinceCommits, maxPages);
+        List<Commit2> commits = getCommitsPagination(owner, repo, sinceCommits, maxPages);
 
-        List<Issue> issues = getIssuesPagination(owner, repo, sinceCommits, maxPages);
+        List<Issue2> issues = getIssuesPagination(owner, repo, sinceCommits, maxPages);
 
-        for(Issue issue: issues) {
+        for(Issue2 issue: issues) {
             Integer id = Integer.valueOf(issue.getRef_id());
-            List<Comment> comments = getCommentsPagination(owner, repo, id, maxPages);
+            List<Comment2> comments = getCommentsPagination(owner, repo, id, maxPages);
             issue.setComments(comments);
         }
 
@@ -84,7 +84,7 @@ public class GitHubService {
     // ----------------------------------------------------------------------------------------------------
     // Project
 
-    public Project getProject(String owner, String repo) {
+    public Project2 getProject(String owner, String repo) {
         HttpHeaders headers = new HttpHeaders();
 
         // Setting token header
@@ -93,42 +93,38 @@ public class GitHubService {
         }
 
         // Send request
-        HttpEntity<Project[]> request = new HttpEntity<>(null, headers);
+        HttpEntity<Project2[]> request = new HttpEntity<>(null, headers);
 
         String uri = baseUri + owner + "/" + repo;
 
-        ResponseEntity<Project> project = restTemplate
-                .exchange(uri, HttpMethod.GET, request, Project.class);
+        ResponseEntity<Project2> project = restTemplate
+                .exchange(uri, HttpMethod.GET, request, Project2.class);
 
         return project.getBody();
     }
 
-
-
-
     // ----------------------------------------------------------------------------------------------------
     // Commit
     // Función getCommits
-    public ResponseEntity<Commit[]> getCommits(String uri, HttpHeaders headers){
+    public ResponseEntity<Commit2[]> getCommits(String uri, HttpHeaders headers){
         // Send request
-        HttpEntity<Commit[]> request = new HttpEntity<>(null, headers);
+        HttpEntity<Commit2[]> request = new HttpEntity<>(null, headers);
 
-        ResponseEntity<Commit[]> response = restTemplate
-                .exchange(uri, HttpMethod.GET, request, Commit[].class);
+        ResponseEntity<Commit2[]> response = restTemplate
+                .exchange(uri, HttpMethod.GET, request, Commit2[].class);
 
         return response;
     }
 
-
     //POST baseUri/{owner}/{repoName}[?sinceCommits=5&sinceIssues=30&maxPages=2]
-    public List<Commit> getCommitsPagination(String owner, String repo, int sinceCommits, int maxPages)
+    public List<Commit2> getCommitsPagination(String owner, String repo, int sinceCommits, int maxPages)
     throws HttpClientErrorException {
         HttpHeaders headers = new HttpHeaders();
         if(token!="") {
             headers.set("Authorization", "Bearer" + token);
         }
 
-        List<Commit> commits = new ArrayList<>();
+        List<Commit2> commits = new ArrayList<>();
 
         // Calculate date and time to retrieve commits from based on the number of input days
         String sinceCommit = ZonedDateTime.now().minusDays(sinceCommits)
@@ -140,8 +136,8 @@ public class GitHubService {
         logger.debug("Retrieving commits from page 1:" + uri);
 
         // Exchange
-        ResponseEntity<Commit[]> response = getCommits(uri, headers);
-        List<Commit> pageCommits = Arrays.stream (response .getBody()).toList();
+        ResponseEntity<Commit2[]> response = getCommits(uri, headers);
+        List<Commit2> pageCommits = Arrays.stream (response .getBody()).toList();
         logger.debug (pageCommits.size() + " commits retrieved.");
         commits.addAll(pageCommits);
 
@@ -165,24 +161,24 @@ public class GitHubService {
 
     // ----------------------------------------------------------------------------------------------------
     // Issues
-    public ResponseEntity<Issue[]> getIssues(String uri, HttpHeaders headers){
+    public ResponseEntity<Issue2[]> getIssues(String uri, HttpHeaders headers){
         // Send request
-        HttpEntity<Commit[]> request = new HttpEntity<>(null, headers);
+        HttpEntity<Commit2[]> request = new HttpEntity<>(null, headers);
 
-        ResponseEntity<Issue[]> response = restTemplate
-                .exchange(uri, HttpMethod.GET, request, Issue[].class);
+        ResponseEntity<Issue2[]> response = restTemplate
+                .exchange(uri, HttpMethod.GET, request, Issue2[].class);
 
         return response;
     }
 
-    public List<Issue> getIssuesPagination(String owner, String repo, int sinceIssues, int maxPages)
+    public List<Issue2> getIssuesPagination(String owner, String repo, int sinceIssues, int maxPages)
             throws HttpClientErrorException {
         HttpHeaders headers = new HttpHeaders();
         if(token!="") {
             headers.set("Authorization", "Bearer" + token);
         }
 
-        List<Issue> issues = new ArrayList<>();
+        List<Issue2> issues = new ArrayList<>();
 
         // Calculate date and time to retrieve issues from based on the number of input days
         String sinceIssue = ZonedDateTime.now().minusDays(sinceIssues)
@@ -193,8 +189,8 @@ public class GitHubService {
         logger.debug("Retrieving issues from page 1:" + uri);
 
         // Exchange
-        ResponseEntity<Issue[]> response = getIssues(uri, headers);
-        List<Issue> pageIssues = Arrays.stream (response .getBody()).toList();
+        ResponseEntity<Issue2[]> response = getIssues(uri, headers);
+        List<Issue2> pageIssues = Arrays.stream (response .getBody()).toList();
         logger.debug (pageIssues.size() + " commits retrieved.");
         issues.addAll(pageIssues);
 
@@ -219,34 +215,34 @@ public class GitHubService {
     // ----------------------------------------------------------------------------------------------------
     // Comments
 
-    public ResponseEntity<Comment[]> getComments(String uri, HttpHeaders headers){
+    public ResponseEntity<Comment2[]> getComments(String uri, HttpHeaders headers){
         // Send request
-        HttpEntity<Comment[]> request = new HttpEntity<>(null, headers);
+        HttpEntity<Comment2[]> request = new HttpEntity<>(null, headers);
 
-        ResponseEntity<Comment[]> response = restTemplate
-                .exchange(uri, HttpMethod.GET, request, Comment[].class);
+        ResponseEntity<Comment2[]> response = restTemplate
+                .exchange(uri, HttpMethod.GET, request, Comment2[].class);
 
         return response;
     }
 
 
     //POST baseUri/{owner}/{repoName}[?sinceCommits=5&sinceIssues=30&maxPages=2]
-    public List<Comment> getCommentsPagination(String owner, String repo,int issueId, int maxPages)
+    public List<Comment2> getCommentsPagination(String owner, String repo, int issueId, int maxPages)
             throws HttpClientErrorException {
         HttpHeaders headers = new HttpHeaders();
         if(token!="") {
             headers.set("Authorization", "Bearer" + token);
         }
 
-        List<Comment> comments = new ArrayList<>();
+        List<Comment2> comments = new ArrayList<>();
 
         // First page
         String uri = baseUri + owner + "/" + repo + "/issues/" + issueId + "/comments";
         logger.debug("Retrieving comments from page 1:" + uri);
 
         // Exchange
-        ResponseEntity<Comment[]> response = getComments(uri, headers);
-        List<Comment> pageComments = Arrays.stream (response .getBody()).toList();
+        ResponseEntity<Comment2[]> response = getComments(uri, headers);
+        List<Comment2> pageComments = Arrays.stream (response .getBody()).toList();
         logger.debug (pageComments.size() + " comments retrieved.");
         comments.addAll(pageComments);
 

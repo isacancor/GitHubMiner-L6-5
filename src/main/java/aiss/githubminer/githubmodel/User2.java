@@ -29,7 +29,7 @@ import java.util.Map;
     "site_admin"
 })
 @Generated("jsonschema2pojo")
-public class User {
+public class User2 {
 
     @JsonProperty("login")
     private String login;

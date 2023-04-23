@@ -1,8 +1,8 @@
 package aiss.githubminer.service;
 
-import aiss.githubminer.githubmodel.Comment;
-import aiss.githubminer.githubmodel.Commit;
-import aiss.githubminer.githubmodel.Project;
+import aiss.githubminer.githubmodel.Comment2;
+import aiss.githubminer.githubmodel.Commit2;
+import aiss.githubminer.githubmodel.Project2;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -54,16 +54,14 @@ class GitHubServiceTest {
  */
     // --------------------------------------------------------------------------------------------------------------
     // Project
-
-
     @Test
     void getProject() {
-        Project project = service.getProject(owner,repo);
+        Project2 project = service.getProject(owner, repo);
         assertEquals(project.getId(), "1148753", "The id does not match");
         assertEquals(project.getName(), "spring-framework", "The name does not match");
         assertEquals(project.getWebUrl(), "https://github.com/spring-projects/spring-framework",
                 "The url does not match");
-        System.out.println(project.toString());
+        System.out.println(project);
     }
 
     // --------------------------------------------------------------------------------------------------------------
@@ -73,8 +71,8 @@ class GitHubServiceTest {
         String uri = baseUri + owner + "/" + repo +  "/commits";
         HttpHeaders headers = new HttpHeaders();
         headers.set("Authorization", "Bearer " + token);
-        ResponseEntity<Commit[]> commits = service.getCommits(uri, headers);
-        List<Commit> commitList = Arrays.stream(commits.getBody()).toList();
+        ResponseEntity<Commit2[]> commits = service.getCommits(uri, headers);
+        List<Commit2> commitList = Arrays.stream(commits.getBody()).toList();
         assertNotNull(commitList, "The list of commits is null");
 
         commitList.stream().forEach(c -> System.out.println(c + "\n"));
@@ -84,9 +82,9 @@ class GitHubServiceTest {
     void getCommitsPagination() {
         Integer since = sinceCommitsDefault;
         Integer maxPage = 9;
-        List<Commit> commits = service.getCommitsPagination(owner, repo, since, maxPage);
+        List<Commit2> commits = service.getCommitsPagination(owner, repo, since, maxPage);
         ZonedDateTime sinceCommit = ZonedDateTime.now().minusDays(since);
-        for( Commit commit: commits) {
+        for( Commit2 commit: commits) {
             ZonedDateTime date = ZonedDateTime.parse(commit.getCommittedDate());
             assertTrue(date.isAfter(sinceCommit),
                     "The commit date can not be earlier than the specified date in sinceCommit");
@@ -110,8 +108,8 @@ class GitHubServiceTest {
         String uri = baseUri + owner + "/" + repo +  "/issues/" + issueId + "/comments";
         HttpHeaders headers = new HttpHeaders();
         headers.set("Authorization", "Bearer " + token);
-        ResponseEntity<Comment[]> comments = service.getComments(uri, headers);
-        List<Comment> commentList = Arrays.stream(comments.getBody()).toList();
+        ResponseEntity<Comment2[]> comments = service.getComments(uri, headers);
+        List<Comment2> commentList = Arrays.stream(comments.getBody()).toList();
         assertNotNull(commentList, "The list of comments is null");
 
         commentList.stream().forEach(c -> System.out.println(c + "\n"));
@@ -120,7 +118,7 @@ class GitHubServiceTest {
     @Test
     void getCommentsPagination() {
         Integer maxPage = 2;
-        List<Comment> comments = service.getCommentsPagination(owner, repo, issueId, maxPage);
+        List<Comment2> comments = service.getCommentsPagination(owner, repo, issueId, maxPage);
 
         // 30 = num elements per page (default value)
         assertTrue(comments.size() <= 30*maxPagesDefault,

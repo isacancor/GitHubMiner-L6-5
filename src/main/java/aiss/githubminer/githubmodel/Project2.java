@@ -12,7 +12,7 @@ import java.util.List;
 
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class Project {
+public class Project2 {
 
     @JsonProperty("id")
     public String id;
@@ -26,16 +26,16 @@ public class Project {
     public String webUrl;
 
     @JsonProperty("commits")
-    private List<Commit> commits;
+    private List<Commit2> commits;
 
 
     @JsonProperty("issues")
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "projectId")
-    private List<Issue> issues;
+    private List<Issue2> issues;
 
 
-    public Project() {
+    public Project2() {
         commits = new ArrayList<>();
         issues = new ArrayList<>();
     }
@@ -65,21 +65,21 @@ public class Project {
         this.webUrl = webUrl;
     }
 
-    public List<Commit> getCommits() {
+    public List<Commit2> getCommits() {
         return commits;
     }
 
-    public void setCommits(List<Commit> commits) {
+    public void setCommits(List<Commit2> commits) {
         this.commits = commits;
     }
 
 
 
-    public List<Issue> getIssues() {
+    public List<Issue2> getIssues() {
         return issues;
     }
 
-    public void setIssues(List<Issue> issues) {
+    public void setIssues(List<Issue2> issues) {
         this.issues = issues;
     }
 
@@ -88,7 +88,7 @@ public class Project {
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        sb.append(Project.class.getName()).append('@').append(Integer.toHexString(System.identityHashCode(this))).append('[');
+        sb.append(Project2.class.getName()).append('@').append(Integer.toHexString(System.identityHashCode(this))).append('[');
         sb.append("id");
         sb.append('=');
         sb.append(((this.id == null)?"<null>":this.id));

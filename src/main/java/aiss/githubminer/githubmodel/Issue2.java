@@ -10,7 +10,7 @@ import java.util.List;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class Issue {
+public class Issue2 {
 
     @JsonProperty("id")
     private Integer id;
@@ -46,7 +46,7 @@ public class Issue {
     private User assignee;
 
     @JsonProperty("comments")
-    private List<Comment> comments;
+    private List<Comment2> comments;
 
 
     /*
@@ -94,10 +94,10 @@ public class Issue {
     private Map<String, Object> additionalProperties = new LinkedHashMap<String, Object>();
 */
 
-    public List<Comment> getComments() {
+    public List<Comment2> getComments() {
         return comments;
     }
-    public void setComments(List<Comment> comments) {
+    public void setComments(List<Comment2> comments) {
         this.comments = comments;
     }
 
