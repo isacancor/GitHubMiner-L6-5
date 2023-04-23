@@ -1,19 +1,19 @@
+package aiss.githubminer.githubmodel;
 
-package aiss.githubminer.model;
-
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import javax.persistence.*;
+import javax.persistence.CascadeType;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 import javax.validation.constraints.NotEmpty;
 import java.util.ArrayList;
 import java.util.List;
 
 
-@Entity
-@Table(name = "Project")
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Project {
 
-    @Id
     @JsonProperty("id")
     public String id;
 
@@ -21,23 +21,25 @@ public class Project {
     @NotEmpty(message = "The name of the project cannot be empty")
     public String name;
 
-    @JsonProperty("web_url")
+    @JsonProperty("html_url")
     @NotEmpty(message = "The URL of the project cannot be empty")
     public String webUrl;
+
     @JsonProperty("commits")
-    @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "projectId")
     private List<Commit> commits;
+
 
     @JsonProperty("issues")
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "projectId")
     private List<Issue> issues;
 
+
     public Project() {
         commits = new ArrayList<>();
         issues = new ArrayList<>();
     }
+
 
     public String getId() {
         return id;
@@ -71,6 +73,8 @@ public class Project {
         this.commits = commits;
     }
 
+
+
     public List<Issue> getIssues() {
         return issues;
     }
@@ -78,6 +82,8 @@ public class Project {
     public void setIssues(List<Issue> issues) {
         this.issues = issues;
     }
+
+
 
     @Override
     public String toString() {
@@ -102,17 +108,5 @@ public class Project {
             sb.append(']');
         }
         return sb.toString();
-    }
-
-    // -------------------------------------------------------------------------------
-    public void prettyPrint(){
-        System.out.println("Id: " + this.getId());
-        System.out.println("Name: " + this.getName());
-        System.out.println("Web Url: " + this.getWebUrl());
-        System.out.println("Commits:");
-        this.getCommits().forEach(c-> System.out.println("[Id=" + c.getId() + ", Title=" + c.getTitle() + ", Author=" + c.getAuthorName() + "]"));
-        System.out.println("-----------------------------------------------------------------");
-        System.out.println("Issues:");
-        this.getIssues().forEach(i-> System.out.println("[Id=" + i.getId() + ", Title=" + i.getTitle() + ", Author=" + i.getAuthor() + "]"));
     }
 }

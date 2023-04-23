@@ -1,4 +1,3 @@
-
 package aiss.githubminer.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -12,12 +11,15 @@ import java.util.List;
 
 @Entity
 @Table(name = "Issue")
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Issue {
 
     @Id
     @JsonProperty("id")
     private String id;
 
+    @JsonProperty("iid")
+    private String iid;
     @JsonProperty("ref_id")
     private String refId;
     @JsonProperty("title")
@@ -65,6 +67,14 @@ public class Issue {
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    public String getIid() {
+        return iid;
+    }
+
+    public void setIid(String iid) {
+        this.iid = iid;
     }
 
     public String getRefId() {

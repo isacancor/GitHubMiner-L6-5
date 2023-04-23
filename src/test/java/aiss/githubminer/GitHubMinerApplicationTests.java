@@ -1,4 +1,4 @@
-package aiss.githubminer.githubminer;
+package aiss.githubminer;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
