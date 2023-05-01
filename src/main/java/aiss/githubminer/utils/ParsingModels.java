@@ -18,9 +18,16 @@ public class ParsingModels {
 
     public static Commit parseCommit(Commit2 oldCommit){
         Commit newCommit = new Commit();
-
-        // TODO
-
+        newCommit.setId(oldCommit.getId());
+        newCommit.setTitle(oldCommit.getTitle());
+        newCommit.setMessage(oldCommit.getMessage());
+        newCommit.setAuthorName(oldCommit.getAuthorName());
+        newCommit.setAuthorEmail(oldCommit.getAuthorEmail());
+        newCommit.setAuthoredDate(oldCommit.getAuthoredDate());
+        newCommit.setCommitterName(oldCommit.getCommitterName());
+        newCommit.setCommitterEmail(oldCommit.getCommitterEmail());
+        newCommit.setCommittedDate(oldCommit.getCommittedDate());
+        newCommit.setWebUrl(oldCommit.getWebUrl());
         return newCommit;
     }
 
@@ -42,9 +49,11 @@ public class ParsingModels {
 
     public static Comment parseComment(Comment2 oldComment){
         Comment newComment = new Comment();
-
-        // TODO
-
+        newComment.setId(oldComment.getId());
+        newComment.setBody(oldComment.getBody());
+        newComment.setAuthor(oldComment.getAuthor());
+        newComment.setCreatedAt(oldComment.getCreated_at());
+        newComment.setUpdatedAt(oldComment.getUpdatedAt());
         return newComment;
     }
 

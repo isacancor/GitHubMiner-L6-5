@@ -138,7 +138,7 @@ public class Commit {
         sb.append(',');
         sb.append("message");
         sb.append('=');
-        sb.append(((this.message == null) ? "<null>" : this.message));
+        sb.append(((this.message == null) ? "<null>" : this.message.replaceAll("\n", "\\\\n")));
         sb.append(',');
         sb.append("authorName");
         sb.append('=');

@@ -22,7 +22,13 @@ import static org.junit.jupiter.api.Assertions.*;
 @SpringBootTest
 class GitHubServiceTest {
     @Autowired
-    GitHubService service;
+    ProjectService projectService;
+    @Autowired
+    CommitService commitService;
+    @Autowired
+    IssueService issueService;
+    @Autowired
+    CommentService commentService;
 
     @Value("${githubminer.token}")
     private String token;
@@ -59,7 +65,7 @@ class GitHubServiceTest {
     // Project
     @Test
     void getProject() {
-        Project project = service.getProject(owner, repo);
+        Project project = projectService.getProject(owner, repo);
         assertEquals(project.getId(), "1148753", "The id does not match");
         assertEquals(project.getName(), "spring-framework", "The name does not match");
         assertEquals(project.getWebUrl(), "https://github.com/spring-projects/spring-framework",
@@ -74,7 +80,7 @@ class GitHubServiceTest {
         String uri = baseUri + owner + "/" + repo +  "/commits";
         HttpHeaders headers = new HttpHeaders();
         headers.set("Authorization", "Bearer " + token);
-        ResponseEntity<Commit2[]> commits = service.getCommits(uri, headers);
+        ResponseEntity<Commit2[]> commits = commitService.getCommits(uri, headers);
         List<Commit2> commitList = Arrays.stream(commits.getBody()).toList();
         assertNotNull(commitList, "The list of commits is null");
 
@@ -83,9 +89,9 @@ class GitHubServiceTest {
 
     @Test
     void getCommitsPagination() {
-        Integer since = sinceCommitsDefault;
-        Integer maxPage = 9;
-        List<Commit> commits = service.getCommitsPagination(owner, repo, since, maxPage);
+        Integer since = 1;
+        Integer maxPage = 4;
+        List<Commit> commits = commitService.getCommitsPagination(owner, repo, since, maxPage);
         ZonedDateTime sinceCommit = ZonedDateTime.now().minusDays(since);
         for( Commit commit: commits) {
             ZonedDateTime date = ZonedDateTime.parse(commit.getCommittedDate());
@@ -111,7 +117,7 @@ class GitHubServiceTest {
         String uri = baseUri + owner + "/" + repo +  "/issues/" + issueId + "/comments";
         HttpHeaders headers = new HttpHeaders();
         headers.set("Authorization", "Bearer " + token);
-        ResponseEntity<Comment2[]> comments = service.getComments(uri, headers);
+        ResponseEntity<Comment2[]> comments = commentService.getComments(uri, headers);
         List<Comment2> commentList = Arrays.stream(comments.getBody()).toList();
         assertNotNull(commentList, "The list of comments is null");
 
@@ -121,7 +127,7 @@ class GitHubServiceTest {
     @Test
     void getCommentsPagination() {
         Integer maxPage = 2;
-        List<Comment> comments = service.getCommentsPagination(owner, repo, issueId, maxPage);
+        List<Comment> comments = commentService.getCommentsPagination(owner, repo, issueId, maxPage);
 
         // 30 = num elements per page (default value)
         assertTrue(comments.size() <= 30*maxPagesDefault,

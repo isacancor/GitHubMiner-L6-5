@@ -11,7 +11,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public class Comment2 {
 
     @JsonProperty("id")
-    private Integer id;
+    private String id;
 
     @JsonProperty("body")
     private String body;
@@ -26,17 +26,17 @@ public class Comment2 {
     private User author;
 
     @JsonProperty("id")
-    public Integer getId() {
+    public String getId() {
         return id;
     }
 
     @JsonProperty("id")
-    public void setId(Integer id) {
+    public void setId(String id) {
         this.id = id;
     }
 
     @JsonProperty("user")
-    public User getUser() {
+    public User getAuthor() {
         return author;
     }
     @JsonProperty("user")
