@@ -77,21 +77,21 @@ public class CommitService {
 
         // Exchange
         ResponseEntity<Commit2[]> response = getCommits(uri, headers);
-        List<Commit2> pageCommits = Arrays.stream (response .getBody()).toList();
+        List<Commit2> pageCommits = Arrays.stream(response.getBody()).toList();
         logger.debug (pageCommits.size() + " commits retrieved.");
         commits.addAll(pageCommits);
 
         // 2..n pages
-        String nextPageURL = NextUri.getNextPageUrl(uri);
+        String nextPageURL = NextUri.getNextPageUrl(response.getHeaders());
         int page = 2;
 
         while (nextPageURL != null && page <= maxPages) {
             logger.debug("Retrieving commits from page " + page + ": " + nextPageURL);
             response = getCommits(nextPageURL, headers);
             pageCommits = Arrays.stream(response.getBody()).toList();
-            logger. debug(pageCommits.size() + " commits retrieved.");
+            logger.debug(pageCommits.size() + " commits retrieved.");
             commits.addAll(pageCommits);
-            nextPageURL = NextUri.getNextPageUrl(uri);
+            nextPageURL = NextUri.getNextPageUrl(response.getHeaders());
             page++;
         }
 

@@ -84,14 +84,16 @@ class GitHubServiceTest {
         List<Commit2> commitList = Arrays.stream(commits.getBody()).toList();
         assertNotNull(commitList, "The list of commits is null");
 
+        System.out.println(commitList.size());
         commitList.stream().forEach(c -> System.out.println(c + "\n"));
     }
 
     @Test
     void getCommitsPagination() {
-        Integer since = 1;
-        Integer maxPage = 4;
+        Integer since = 30;
+        Integer maxPage = 5;
         List<Commit> commits = commitService.getCommitsPagination(owner, repo, since, maxPage);
+
         ZonedDateTime sinceCommit = ZonedDateTime.now().minusDays(since);
         for( Commit commit: commits) {
             ZonedDateTime date = ZonedDateTime.parse(commit.getCommittedDate());
@@ -99,11 +101,12 @@ class GitHubServiceTest {
                     "The commit date can not be earlier than the specified date in sinceCommit");
         }
         // 30 = num elements per page (default value)
-        assertTrue(commits.size() <= 30*maxPagesDefault,
+        assertTrue(commits.size() <= 30*maxPage,
                 "The number of elements can not exceed the default value of page " +
                         "elements multiply by the maximum number of pages accepted");
 
-        commits.stream().forEach(c -> System.out.println(c + "\n"));
+        System.out.println(commits.size());
+        //commits.stream().forEach(c -> System.out.println(c + "\n"));
     }
 
     // --------------------------------------------------------------------------------------------------------------

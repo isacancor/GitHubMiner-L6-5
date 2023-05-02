@@ -77,7 +77,7 @@ public class CommentService {
         comments.addAll(pageComments);
 
         // 2..n pages
-        String nextPageURL = NextUri.getNextPageUrl(uri);
+        String nextPageURL = NextUri.getNextPageUrl(response.getHeaders());
         int page = 2;
 
         while (nextPageURL != null && page <= maxPages) {
@@ -86,7 +86,7 @@ public class CommentService {
             pageComments = Arrays.stream(response.getBody()).toList();
             logger.debug(pageComments.size() + " commits retrieved.");
             comments.addAll(pageComments);
-            nextPageURL = NextUri.getNextPageUrl(uri);
+            nextPageURL = NextUri.getNextPageUrl(response.getHeaders());
             page++;
         }
 
