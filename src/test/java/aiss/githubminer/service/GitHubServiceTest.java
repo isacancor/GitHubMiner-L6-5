@@ -105,8 +105,7 @@ class GitHubServiceTest {
                 "The number of elements can not exceed the default value of page " +
                         "elements multiply by the maximum number of pages accepted");
 
-        System.out.println(commits.size());
-        //commits.stream().forEach(c -> System.out.println(c + "\n"));
+        commits.stream().forEach(c -> System.out.println(c + "\n"));
     }
 
     // --------------------------------------------------------------------------------------------------------------

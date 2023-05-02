@@ -82,7 +82,7 @@ public class Comment {
         sb.append(',');
         sb.append("body");
         sb.append('=');
-        sb.append(((this.body == null) ? "<null>" : this.body));
+        sb.append(((this.body == null) ? "<null>" : this.body.replaceAll("\n", "\\\\n")));
         sb.append(',');
         sb.append("author");
         sb.append('=');
