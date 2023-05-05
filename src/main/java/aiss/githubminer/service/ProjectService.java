@@ -48,8 +48,8 @@ public class ProjectService {
     private static Logger logger = LoggerFactory
             .getLogger(ProjectService.class);
 
-    public Project getProjectCommitsIssues(String owner, String repo,
-                                           Integer sinceCommits, Integer sinceIssues, Integer maxPages) {
+    public Project getProjectAllData(String owner, String repo,
+                                     Integer sinceCommits, Integer sinceIssues, Integer maxPages) {
 
         Project newProject = getProject(owner, repo);
 

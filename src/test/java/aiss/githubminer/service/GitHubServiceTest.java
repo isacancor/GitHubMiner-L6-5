@@ -2,9 +2,11 @@ package aiss.githubminer.service;
 
 import aiss.githubminer.githubmodel.Comment2;
 import aiss.githubminer.githubmodel.Commit2;
+import aiss.githubminer.githubmodel.Issue2;
 import aiss.githubminer.githubmodel.Project2;
 import aiss.githubminer.model.Comment;
 import aiss.githubminer.model.Commit;
+import aiss.githubminer.model.Issue;
 import aiss.githubminer.model.Project;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -110,6 +112,39 @@ class GitHubServiceTest {
 
     // --------------------------------------------------------------------------------------------------------------
     // Issues
+
+    @Test
+    void getIssues() {
+        String uri = baseUri + owner + "/" + repo +  "/issues";
+        HttpHeaders headers = new HttpHeaders();
+        headers.set("Authorization", "Bearer " + token);
+        ResponseEntity<Issue2[]> issues = issueService.getIssues(uri, headers);
+        List<Issue2> issueList = Arrays.stream(issues.getBody()).toList();
+        assertNotNull(issueList, "The list of issues is null");
+
+        System.out.println(issueList.size());
+        issueList.stream().forEach(c -> System.out.println(c + "\n"));
+    }
+
+    @Test
+    void getIssuesPagination() {
+        Integer since = 30;
+        Integer maxPage = 5;
+        List<Issue> issues = issueService.getIssuesPagination(owner, repo, since, maxPage);
+
+        ZonedDateTime sinceIssue = ZonedDateTime.now().minusDays(since);
+        for( Issue issue: issues) {
+            ZonedDateTime date = ZonedDateTime.parse(issue.getCreatedAt());
+            assertTrue(date.isAfter(sinceIssue),
+                    "The issue date can not be earlier than the specified date in sinceIssue");
+        }
+        // 30 = num elements per page (default value)
+        assertTrue(issues.size() <= 30*maxPage,
+                "The number of elements can not exceed the default value of page " +
+                        "elements multiply by the maximum number of pages accepted");
+
+        issues.stream().forEach(c -> System.out.println(c + "\n"));
+    }
 
     // --------------------------------------------------------------------------------------------------------------
     // Comments
