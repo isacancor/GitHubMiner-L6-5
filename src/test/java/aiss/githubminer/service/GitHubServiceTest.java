@@ -115,26 +115,26 @@ class GitHubServiceTest {
 
     @Test
     void getIssues() {
-        String uri = baseUri + owner + "/" + repo +  "/issues";
+        String uri = baseUri + owner + "/" + repo + "/issues";
         HttpHeaders headers = new HttpHeaders();
         headers.set("Authorization", "Bearer " + token);
         ResponseEntity<Issue2[]> issues = issueService.getIssues(uri, headers);
         List<Issue2> issueList = Arrays.stream(issues.getBody()).toList();
         assertNotNull(issueList, "The list of issues is null");
 
-        System.out.println(issueList.size());
+        //System.out.println(issueList.size());
         issueList.stream().forEach(c -> System.out.println(c + "\n"));
     }
 
     @Test
     void getIssuesPagination() {
-        Integer since = 30;
-        Integer maxPage = 5;
+        Integer since = 4;
+        Integer maxPage = 2;
         List<Issue> issues = issueService.getIssuesPagination(owner, repo, since, maxPage);
 
         ZonedDateTime sinceIssue = ZonedDateTime.now().minusDays(since);
         for( Issue issue: issues) {
-            ZonedDateTime date = ZonedDateTime.parse(issue.getCreatedAt());
+            ZonedDateTime date = ZonedDateTime.parse(issue.getUpdatedAt());
             assertTrue(date.isAfter(sinceIssue),
                     "The issue date can not be earlier than the specified date in sinceIssue");
         }
@@ -145,6 +145,7 @@ class GitHubServiceTest {
 
         issues.stream().forEach(c -> System.out.println(c + "\n"));
     }
+
 
     // --------------------------------------------------------------------------------------------------------------
     // Comments

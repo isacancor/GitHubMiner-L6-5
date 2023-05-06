@@ -1,6 +1,5 @@
 package aiss.githubminer.service;
 
-import aiss.githubminer.githubmodel.Commit2;
 import aiss.githubminer.githubmodel.Issue2;
 import aiss.githubminer.model.Issue;
 import aiss.githubminer.utils.NextUri;
@@ -49,7 +48,7 @@ public class IssueService {
 
     public ResponseEntity<Issue2[]> getIssues(String uri, HttpHeaders headers){
         // Send request
-        HttpEntity<Commit2[]> request = new HttpEntity<>(null, headers);
+        HttpEntity<Issue2[]> request = new HttpEntity<>(null, headers);
 
         ResponseEntity<Issue2[]> response = restTemplate
                 .exchange(uri, HttpMethod.GET, request, Issue2[].class);

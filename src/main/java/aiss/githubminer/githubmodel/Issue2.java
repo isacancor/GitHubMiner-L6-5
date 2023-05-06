@@ -1,19 +1,19 @@
 
 package aiss.githubminer.githubmodel;
 
-import aiss.githubminer.model.User;
+import aiss.githubminer.model.Comment;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.List;
 
-@JsonInclude(JsonInclude.Include.NON_NULL)
+//@JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Issue2 {
 
     @JsonProperty("id")
-    private Integer id;
+    private String id;
 
     @JsonProperty("number")
     private String ref_id;
@@ -22,7 +22,7 @@ public class Issue2 {
     private String title;
 
     @JsonProperty("body")
-    private Object description;
+    private String description;
 
     @JsonProperty("state")
     private String state;
@@ -34,131 +34,35 @@ public class Issue2 {
     private String updated_at;
 
     @JsonProperty("closed_at")
-    private Object closed_at;
+    private String closed_at;
 
     @JsonProperty("labels")
     private List<Label> labels;
 
-
-    @JsonProperty("user")
-    private User user;
-    @JsonProperty("assignee")
-    private User assignee;
-
-    @JsonProperty("comments")
-    private List<Comment2> comments;
-
-
-    /*
-    @JsonProperty("url")
-    private String url;
-    @JsonProperty("repository_url")
-    private String repositoryUrl;
-    @JsonProperty("labels_url")
-    private String labelsUrl;
-    @JsonProperty("comments_url")
-    private String commentsUrl;
-    @JsonProperty("events_url")
-    private String eventsUrl;
-    @JsonProperty("html_url")
-    private String htmlUrl;
-    @JsonProperty("number")
-    private Integer number;
-    @JsonProperty("user")
-    private User user;
-    @JsonProperty("locked")
-    private Boolean locked;
-    @JsonProperty("assignees")
-    private List<Object> assignees;
-    @JsonProperty("milestone")
-    private Object milestone;
-    @JsonProperty("comments")
-    private Integer comments;
-    @JsonProperty("author_association")
-    private String authorAssociation;
-    @JsonProperty("active_lock_reason")
-    private Object activeLockReason;
-    @JsonProperty("draft")
-    private Boolean draft;
-    @JsonProperty("pull_request")
-    private PullRequest pullRequest;
     @JsonProperty("reactions")
     private Reactions reactions;
-    @JsonProperty("timeline_url")
-    private String timelineUrl;
-    @JsonProperty("performed_via_github_app")
-    private Object performedViaGithubApp;
-    @JsonProperty("state_reason")
-    private Object stateReason;
-    @JsonIgnore
-    private Map<String, Object> additionalProperties = new LinkedHashMap<String, Object>();
-*/
 
-    public List<Comment2> getComments() {
-        return comments;
-    }
-    public void setComments(List<Comment2> comments) {
-        this.comments = comments;
-    }
+    @JsonProperty("user")
+    private User2 author;
+    @JsonProperty("assignee")
+    private User2 assignee;
 
-
-    /*
-    @JsonProperty("url")
-    public String getUrl() {
-        return url;
-    }
-    @JsonProperty("url")
-    public void setUrl(String url) {
-        this.url = url;
-    }
-    @JsonProperty("repository_url")
-    public String getRepositoryUrl() {
-        return repositoryUrl;
-    }
-    @JsonProperty("repository_url")
-    public void setRepositoryUrl(String repositoryUrl) {
-        this.repositoryUrl = repositoryUrl;
-    }
-    @JsonProperty("labels_url")
-    public String getLabelsUrl() {
-        return labelsUrl;
-    }
-    @JsonProperty("labels_url")
-    public void setLabelsUrl(String labelsUrl) {
-        this.labelsUrl = labelsUrl;
-    }
-    @JsonProperty("events_url")
-    public String getEventsUrl() {
-        return eventsUrl;
-    }
-    @JsonProperty("events_url")
-    public void setEventsUrl(String eventsUrl) {
-        this.eventsUrl = eventsUrl;
-    }
     @JsonProperty("html_url")
-    public String getHtmlUrl() {
-        return htmlUrl;
-    }
-    @JsonProperty("html_url")
-    public void setHtmlUrl(String htmlUrl) {
-        this.htmlUrl = htmlUrl;
-    }
-    */
+    private String webUrl;
 
-    @JsonProperty("id")
-    public Integer getId() {
+
+    public String getId() {
         return id;
     }
-    @JsonProperty("id")
-    public void setId(Integer id) {
+
+    public void setId(String id) {
         this.id = id;
     }
 
-    @JsonProperty("node_id")
     public String getRef_id() {
         return ref_id;
     }
-    @JsonProperty("node_id")
+
     public void setRef_id(String ref_id) {
         this.ref_id = ref_id;
     }
@@ -174,192 +78,169 @@ public class Issue2 {
     }
     */
 
-    @JsonProperty("title")
     public String getTitle() {
         return title;
     }
-    @JsonProperty("title")
+
     public void setTitle(String title) {
         this.title = title;
     }
 
-    @JsonProperty("user")
-    public User getUser() {
-        return user;
-    }
-    @JsonProperty("user")
-    public void setUser(User user) {
-        this.user = user;
-    }
-    @JsonProperty("assignee")
-    public User getAssignee() {
-        return assignee;
-    }
-    @JsonProperty("assignee")
-    public void setAssignee(User assignee) {
-        this.assignee = assignee;
+    public String getDescription() {
+        return description;
     }
 
-    @JsonProperty("labels")
-    public List<Label> getLabels() {
-        return labels;
-    }
-    @JsonProperty("labels")
-    public void setLabels(List<Label> labels) {
-        this.labels = labels;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
-    @JsonProperty("state")
     public String getState() {
         return state;
     }
-    @JsonProperty("state")
+
     public void setState(String state) {
         this.state = state;
     }
 
-    /*
-    @JsonProperty("locked")
-    public Boolean getLocked() {
-        return locked;
-    }
-    @JsonProperty("locked")
-    public void setLocked(Boolean locked) {
-        this.locked = locked;
-    }
-    @JsonProperty("assignee")
-    public Object getAssignee() {
-        return assignee;
-    }
-    @JsonProperty("assignee")
-    public void setAssignee(Object assignee) {
-        this.assignee = assignee;
-    }
-    @JsonProperty("assignees")
-    public List<Object> getAssignees() {
-        return assignees;
-    }
-    @JsonProperty("assignees")
-    public void setAssignees(List<Object> assignees) {
-        this.assignees = assignees;
-    }
-    @JsonProperty("milestone")
-    public Object getMilestone() {
-        return milestone;
-    }
-    @JsonProperty("milestone")
-    public void setMilestone(Object milestone) {
-        this.milestone = milestone;
-    }
-    */
-
-    @JsonProperty("created_at")
     public String getCreated_at() {
         return created_at;
     }
-    @JsonProperty("created_at")
+
     public void setCreated_at(String created_at) {
         this.created_at = created_at;
     }
 
-    @JsonProperty("updated_at")
     public String getUpdated_at() {
         return updated_at;
     }
-    @JsonProperty("updated_at")
+
     public void setUpdated_at(String updated_at) {
         this.updated_at = updated_at;
     }
 
-    @JsonProperty("closed_at")
-    public Object getClosed_at() {
+    public String getClosed_at() {
         return closed_at;
     }
-    @JsonProperty("closed_at")
-    public void setClosed_at(Object closed_at) {
+
+    public void setClosed_at(String closed_at) {
         this.closed_at = closed_at;
     }
 
+    public List<String> getLabels() {
 
-    /*
-    @JsonProperty("author_association")
-    public String getAuthorAssociation() {
-        return authorAssociation;
-    }
-    @JsonProperty("author_association")
-    public void setAuthorAssociation(String authorAssociation) {
-        this.authorAssociation = authorAssociation;
-    }
-    @JsonProperty("active_lock_reason")
-    public Object getActiveLockReason() {
-        return activeLockReason;
-    }
-    @JsonProperty("active_lock_reason")
-    public void setActiveLockReason(Object activeLockReason) {
-        this.activeLockReason = activeLockReason;
-    }
-    @JsonProperty("draft")
-    public Boolean getDraft() {
-        return draft;
-    }
-    @JsonProperty("draft")
-    public void setDraft(Boolean draft) {
-        this.draft = draft;
-    }
-    @JsonProperty("pull_request")
-    public PullRequest getPullRequest() {
-        return pullRequest;
-    }
-    @JsonProperty("pull_request")
-    public void setPullRequest(PullRequest pullRequest) {
-        this.pullRequest = pullRequest;
-    }
-    */
-
-    @JsonProperty("body")
-    public Object getDescription() {
-        return description;
-    }
-    @JsonProperty("body")
-    public void setDescription(Object description) {
-        this.description = description;
+        return labels.stream().map(label -> label.getName()).toList();
     }
 
-    /*
-    @JsonProperty("reactions")
+    public void setLabels(List<Label> labels) {
+        this.labels = labels;
+    }
+
     public Reactions getReactions() {
         return reactions;
     }
-    @JsonProperty("reactions")
+
     public void setReactions(Reactions reactions) {
         this.reactions = reactions;
     }
-    @JsonProperty("timeline_url")
-    public String getTimelineUrl() {
-        return timelineUrl;
+
+    public Integer getUpvotes(){
+        return reactions.getUpvotes();
     }
-    @JsonProperty("timeline_url")
-    public void setTimelineUrl(String timelineUrl) {
-        this.timelineUrl = timelineUrl;
+
+    public Integer getDownvotes() {
+        return reactions.getDownvotes();
     }
-    @JsonProperty("performed_via_github_app")
-    public Object getPerformedViaGithubApp() {
-        return performedViaGithubApp;
-    }
-    @JsonProperty("performed_via_github_app")
-    public void setPerformedViaGithubApp(Object performedViaGithubApp) {
-        this.performedViaGithubApp = performedViaGithubApp;
-    }
-    @JsonProperty("state_reason")
-    public Object getStateReason() {
-        return stateReason;
-    }
-    @JsonProperty("state_reason")
-    public void setStateReason(Object stateReason) {
-        this.stateReason = stateReason;
-    }
-    */
 
 
+
+    public User2 getAuthor() {
+        return author;
+    }
+
+    public void setAuthor(User2 author) {
+        this.author = author;
+    }
+
+    public User2 getAssignee() {
+        return assignee;
+    }
+
+    public void setAssignee(User2 assignee) {
+        this.assignee = assignee;
+    }
+
+    public String getWebUrl(){
+        return webUrl;
+    }
+
+    public void SetWebUrl(String url) {
+        this.webUrl = url;
+    }
+
+
+
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append(Issue2.class.getName()).append('[');
+        sb.append("id");
+        sb.append('=');
+        sb.append(((this.id == null) ? "<null>" : this.id));
+        sb.append(',');
+        sb.append("refId");
+        sb.append('=');
+        sb.append(((this.ref_id == null) ? "<null>" : this.ref_id));
+        sb.append(',');
+        sb.append("title");
+        sb.append('=');
+        sb.append(((this.title == null) ? "<null>" : this.title));
+        sb.append(',');
+        sb.append("description");
+        sb.append('=');
+        sb.append(((this.description == null) ? "<null>" : this.description.replaceAll("\n", "")));
+        sb.append(',');
+        sb.append("state");
+        sb.append('=');
+        sb.append(((this.state == null) ? "<null>" : this.state));
+        sb.append(',');
+        sb.append("createdAt");
+        sb.append('=');
+        sb.append(((this.created_at == null) ? "<null>" : this.created_at));
+        sb.append(',');
+        sb.append("updatedAt");
+        sb.append('=');
+        sb.append(((this.updated_at == null) ? "<null>" : this.updated_at));
+        sb.append(',');
+        sb.append("closedAt");
+        sb.append('=');
+        sb.append(((this.closed_at == null) ? "<null>" : this.closed_at));
+        sb.append(',');
+        sb.append("labels");
+        sb.append('=');
+        sb.append(((this.getLabels() == null) ? "<null>" : this.getLabels()));
+        sb.append(',');
+        sb.append("author");
+        sb.append('=');
+        sb.append(((this.author == null) ? "<null>" : this.author));
+        sb.append(',');
+        sb.append("assignee");
+        sb.append('=');
+        sb.append(((this.assignee == null) ? "<null>" : this.assignee));
+        sb.append(',');
+        sb.append("upvotes");
+        sb.append('=');
+        sb.append(((this.getUpvotes() == null) ? "<null>" : this.getUpvotes()));
+        sb.append(',');
+        sb.append("downvotes");
+        sb.append('=');
+        sb.append(((this.getDownvotes() == null) ? "<null>" : this.getDownvotes()));
+        sb.append(',');
+
+        if (sb.charAt((sb.length() - 1)) == ',') {
+            sb.setCharAt((sb.length() - 1), ']');
+        } else {
+            sb.append(']');
+        }
+        return sb.toString();
+    }
 
 }

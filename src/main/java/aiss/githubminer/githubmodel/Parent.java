@@ -13,6 +13,7 @@ import java.util.Map;
     "url",
     "html_url"
 })
+@JsonIgnoreProperties(ignoreUnknown = true)
 @Generated("jsonschema2pojo")
 public class Parent {
 

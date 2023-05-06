@@ -33,17 +33,33 @@ public class ParsingModels {
 
     public static User parseUser(User2 oldUser){
         User newUser = new User();
-
-        // TODO
-
+        newUser.setId(oldUser.getId());
+        newUser.setUsername(oldUser.getUsername());
+        newUser.setAvatarUrl(oldUser.getAvatarUrl());
+        newUser.setWebUrl(oldUser.getHtmlUrl());
         return newUser;
     }
 
     public static Issue parseIssue(Issue2 oldIssue){
         Issue newIssue = new Issue();
-
-        // TODO
-
+        newIssue.setId(oldIssue.getId());
+        newIssue.setRefId(oldIssue.getRef_id());
+        newIssue.setTitle(oldIssue.getTitle());
+        newIssue.setDescription(oldIssue.getDescription());
+        newIssue.setState(oldIssue.getState());
+        newIssue.setCreatedAt(oldIssue.getCreated_at());
+        newIssue.setUpdatedAt(oldIssue.getUpdated_at());
+        newIssue.setClosedAt(oldIssue.getClosed_at());
+        newIssue.setLabels(oldIssue.getLabels());
+        newIssue.setUpvotes(oldIssue.getUpvotes());
+        newIssue.setDownvotes(oldIssue.getDownvotes());
+        if (oldIssue.getAuthor() != null) {
+            newIssue.setAuthor(parseUser(oldIssue.getAuthor()));
+        }
+        if (oldIssue.getAssignee() != null ) {
+            newIssue.setAssignee(parseUser(oldIssue.getAssignee()));
+        }
+        newIssue.setWebUrl(oldIssue.getWebUrl());
         return newIssue;
     }
 

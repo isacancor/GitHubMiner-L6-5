@@ -8,29 +8,20 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
-@JsonPropertyOrder({
-    "url",
-    "total_count",
-    "upvotes",
-    "downvotes",
-    "laugh",
-    "hooray",
-    "confused",
-    "heart",
-    "rocket",
-    "eyes"
-})
-@Generated("jsonschema2pojo")
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Reactions {
-
+/*
     @JsonProperty("url")
     private String url;
     @JsonProperty("total_count")
     private Integer totalCount;
+
+ */
     @JsonProperty("upvotes")
     private Integer upvotes;
     @JsonProperty("downvotes")
     private Integer downvotes;
+    /*
     @JsonProperty("laugh")
     private Integer laugh;
     @JsonProperty("hooray")
@@ -66,6 +57,8 @@ public class Reactions {
         this.totalCount = totalCount;
     }
 
+     */
+
     @JsonProperty("upvotes")
     public Integer getUpvotes() {
         return upvotes;
@@ -85,7 +78,7 @@ public class Reactions {
     public void setDownvotes(Integer downvotes) {
         this.downvotes = downvotes;
     }
-
+/*
     @JsonProperty("laugh")
     public Integer getLaugh() {
         return laugh;
@@ -155,5 +148,7 @@ public class Reactions {
     public void setAdditionalProperty(String name, Object value) {
         this.additionalProperties.put(name, value);
     }
+
+ */
 
 }

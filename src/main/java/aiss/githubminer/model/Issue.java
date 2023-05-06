@@ -1,5 +1,6 @@
 package aiss.githubminer.model;
 
+import aiss.githubminer.model.User;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -18,8 +19,6 @@ public class Issue {
     @JsonProperty("id")
     private String id;
 
-    @JsonProperty("iid")
-    private String iid;
     @JsonProperty("ref_id")
     private String refId;
     @JsonProperty("title")
@@ -67,14 +66,6 @@ public class Issue {
 
     public void setId(String id) {
         this.id = id;
-    }
-
-    public String getIid() {
-        return iid;
-    }
-
-    public void setIid(String iid) {
-        this.iid = iid;
     }
 
     public String getRefId() {
@@ -207,7 +198,7 @@ public class Issue {
         sb.append(',');
         sb.append("description");
         sb.append('=');
-        sb.append(((this.description == null) ? "<null>" : this.description));
+        sb.append(((this.description == null) ? "<null>" : this.description.replaceAll("\n", "\\\\n")));
         sb.append(',');
         sb.append("state");
         sb.append('=');
