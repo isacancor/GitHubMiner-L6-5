@@ -11,19 +11,17 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
+@RestController
+@RequestMapping("/github")
 public class GitHubController {
-
     @Autowired
-    CommentService commentService;
-    CommitService commitService;
-    IssueService issueService;
     ProjectService projectService;
     @Autowired
     RestTemplate restTemplate;
 
     // GET /githubminer/{id}[?sinceCommits=5&sinceIssues=30&maxPages=2]
-    @GetMapping("/{id}")
-    public Project getProject(@PathVariable String owner, @RequestParam String repo,
+    @GetMapping("/{owner}/{repo}")
+    public Project getProject(@PathVariable String owner, @PathVariable String repo,
                               @RequestParam int sinceCommits, @RequestParam int sinceIssues,
                               @RequestParam int maxPages) {
         Project res = projectService.getProjectAllData(owner, repo, sinceCommits, sinceIssues, maxPages);
