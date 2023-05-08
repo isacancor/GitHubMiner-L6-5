@@ -50,19 +50,21 @@ class GitHubServiceTest {
     final String owner = "spring-projects";
     final String repo = "spring-framework";
     final Integer issueId = 30340;
-/*
+
     @Test
-    void getProjectCommitsIssues() {
-        Project project = service.getProjectCommitsIssues(owner,repo,sinceCommitsDefault,
+    void getProjectAllData() {
+        Project project = projectService.getProjectAllData(owner,repo,sinceCommitsDefault,
                 sinceIssuesDefault,maxPagesDefault);
-        assertEquals(project.getId(), "2183581", "The id doesn't match");
-        assertEquals(project.getName(), "graphviz", "The name doesn't match");
-        assertEquals(project.getWebUrl(),  "https://gitlab.com/graphviz/graphviz", "The web doesn't match");
+        assertEquals(project.getId(), "1148753", "The id doesn't match");
+        assertEquals(project.getName(), "spring-framework", "The name doesn't match");
+        assertEquals(project.getWebUrl(),  "https://github.com/spring-projects/spring-framework", "The web doesn't match");
         assertNotNull(project.getCommits(), "The list of commits is null");
-       // assertNotNull(project.getIssues(), "The list of issues is null");
+        assertNotNull(project.getIssues(), "The list of issues is null");
+
+        project.prettyPrint();
     }
 
- */
+
     // --------------------------------------------------------------------------------------------------------------
     // Project
     @Test

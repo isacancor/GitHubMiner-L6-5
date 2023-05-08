@@ -23,8 +23,10 @@ public class GitHubController {
 
     // GET /githubminer/{id}[?sinceCommits=5&sinceIssues=30&maxPages=2]
     @GetMapping("/{id}")
-    public Project getProject(@PathVariable String owner, @RequestParam String repo) {
-        Project res = projectService.getProject(owner, repo);
+    public Project getProject(@PathVariable String owner, @RequestParam String repo,
+                              @RequestParam int sinceCommits, @RequestParam int sinceIssues,
+                              @RequestParam int maxPages) {
+        Project res = projectService.getProjectAllData(owner, repo, sinceCommits, sinceIssues, maxPages);
         return res;
     }
 
@@ -35,7 +37,7 @@ public class GitHubController {
                                @RequestParam int sinceCommits, @RequestParam int sinceIssues,
                                @RequestParam int maxPages) {
         String uri = "http://localhost:8080/gitminer/projects";
-        Project res = projectService.getProjectAllData(owner, repo, sinceCommits, sinceIssues,maxPages);
+        Project res = projectService.getProjectAllData(owner, repo, sinceCommits, sinceIssues, maxPages);
 
         ResponseEntity<Project> response = restTemplate
                 .postForEntity(uri, res, Project.class);

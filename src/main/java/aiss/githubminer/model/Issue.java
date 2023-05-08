@@ -196,10 +196,13 @@ public class Issue {
         sb.append('=');
         sb.append(((this.title == null) ? "<null>" : this.title));
         sb.append(',');
+        /*
         sb.append("description");
         sb.append('=');
-        sb.append(((this.description == null) ? "<null>" : this.description.replaceAll("\n", "\\\\n")));
+        sb.append(((this.description == null) ? "<null>" : this.description.substring(0,240)));
         sb.append(',');
+
+         */
         sb.append("state");
         sb.append('=');
         sb.append(((this.state == null) ? "<null>" : this.state));
