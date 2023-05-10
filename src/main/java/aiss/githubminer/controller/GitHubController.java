@@ -5,35 +5,71 @@ import aiss.githubminer.service.CommentService;
 import aiss.githubminer.service.CommitService;
 import aiss.githubminer.service.IssueService;
 import aiss.githubminer.service.ProjectService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
+@Tag(name = "GitHub Project", description = "GitHub Project management API")
 @RestController
-@RequestMapping("/github")
+@RequestMapping("/githubminer")
 public class GitHubController {
     @Autowired
     ProjectService projectService;
     @Autowired
     RestTemplate restTemplate;
 
-    // GET /githubminer/{id}[?sinceCommits=5&sinceIssues=30&maxPages=2]
+    // GET /githubminer/{owner}/{repo}[?sinceCommits=5&sinceIssues=30&maxPages=2]
+    @Operation(
+            summary = "Retrieve a GitHub Project",
+            description = "Get a GitHub Project by specifying some parameters",
+            tags = { "project", "get" })
+    @ApiResponses({
+            @ApiResponse(responseCode = "200",
+                    description = "Project found",
+                    content = {@Content(schema = @Schema(implementation = Project.class), mediaType = "application/json")}),
+            @ApiResponse(responseCode = "404",
+                    description = "Project not found",
+                    content = {@Content(schema = @Schema())}),
+    })
     @GetMapping("/{owner}/{repo}")
-    public Project getProject(@PathVariable String owner, @PathVariable String repo,
-                              @RequestParam int sinceCommits, @RequestParam int sinceIssues,
-                              @RequestParam int maxPages) {
+    public Project getProject(@Parameter(description = "name of the project owner") @PathVariable String owner,
+                              @Parameter(description = "name of the project repository") @PathVariable String repo,
+                              @Parameter(description = "number of past days to search for commits") @RequestParam int sinceCommits,
+                              @Parameter(description = "number of past days to search for issues") @RequestParam int sinceIssues,
+                              @Parameter(description = "max number of pages to search") @RequestParam int maxPages) {
         Project res = projectService.getProjectAllData(owner, repo, sinceCommits, sinceIssues, maxPages);
         return res;
     }
 
     // POST /githubminer/{id}[?sinceCommits=5&sinceIssues=30&maxPages=2]
+    @Operation(
+            summary = "Send a GitHub Project to GitMiner",
+            description = "Get a GitHub Project to GitMiner by specifying some parameters",
+            tags = { "project", "post" })
+    @ApiResponses({
+            @ApiResponse(responseCode = "201",
+                    description = "Sent project",
+                    content = {@Content(schema = @Schema(implementation = Project.class), mediaType = "application/json")}),
+            @ApiResponse(responseCode = "400",
+                    description = "Project could not be sent",
+                    content = {@Content(schema = @Schema())}),
+    })
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/{owner}/{repo}")
-    public Project postProject(@PathVariable String owner, @PathVariable String repo,
-                               @RequestParam int sinceCommits, @RequestParam int sinceIssues,
-                               @RequestParam int maxPages) {
+    public Project postProject(@Parameter(description = "name of the project owner") @PathVariable String owner,
+                               @Parameter(description = "name of the project repository") @PathVariable String repo,
+                               @Parameter(description = "number of past days to search for commits") @RequestParam int sinceCommits,
+                               @Parameter(description = "number of past days to search for issues") @RequestParam int sinceIssues,
+                               @Parameter(description = "max number of pages to search") @RequestParam int maxPages) {
         String uri = "http://localhost:8080/gitminer/projects";
         Project res = projectService.getProjectAllData(owner, repo, sinceCommits, sinceIssues, maxPages);
 
@@ -42,8 +78,5 @@ public class GitHubController {
 
         return response.getBody();
     }
-
-
-
 
 }
