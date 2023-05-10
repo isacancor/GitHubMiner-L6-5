@@ -30,8 +30,8 @@ public class GitHubController {
 
     // POST /githubminer/{id}[?sinceCommits=5&sinceIssues=30&maxPages=2]
     @ResponseStatus(HttpStatus.CREATED)
-    @PostMapping("/{id}")
-    public Project postProject(@PathVariable String owner, @RequestParam String repo,
+    @PostMapping("/{owner}/{repo}")
+    public Project postProject(@PathVariable String owner, @PathVariable String repo,
                                @RequestParam int sinceCommits, @RequestParam int sinceIssues,
                                @RequestParam int maxPages) {
         String uri = "http://localhost:8080/gitminer/projects";
