@@ -5,6 +5,7 @@ import aiss.githubminer.service.CommentService;
 import aiss.githubminer.service.CommitService;
 import aiss.githubminer.service.IssueService;
 import aiss.githubminer.service.ProjectService;
+import exception.ProjectNotFoundException;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;

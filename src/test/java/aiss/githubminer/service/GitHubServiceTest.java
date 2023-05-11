@@ -8,6 +8,7 @@ import aiss.githubminer.model.Comment;
 import aiss.githubminer.model.Commit;
 import aiss.githubminer.model.Issue;
 import aiss.githubminer.model.Project;
+import exception.ProjectNotFoundException;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
