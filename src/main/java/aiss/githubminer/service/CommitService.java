@@ -61,7 +61,7 @@ public class CommitService {
             throws HttpClientErrorException {
         HttpHeaders headers = new HttpHeaders();
         if(token!="") {
-            headers.set("Authorization", "Bearer" + token);
+            headers.set("Authorization", "Bearer " + token);
         }
 
         List<Commit2> commits = new ArrayList<>();

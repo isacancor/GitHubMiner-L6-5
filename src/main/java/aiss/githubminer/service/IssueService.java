@@ -1,6 +1,7 @@
 package aiss.githubminer.service;
 
 import aiss.githubminer.githubmodel.Issue2;
+import aiss.githubminer.model.Comment;
 import aiss.githubminer.model.Issue;
 import aiss.githubminer.utils.NextUri;
 import aiss.githubminer.utils.ParsingModels;
@@ -27,6 +28,9 @@ public class IssueService {
 
     @Autowired
     RestTemplate restTemplate;
+
+    @Autowired
+    CommentService commentService;
 
     @Value("${githubminer.token}")
     private String token;
@@ -60,7 +64,7 @@ public class IssueService {
             throws HttpClientErrorException {
         HttpHeaders headers = new HttpHeaders();
         if(token!="") {
-            headers.set("Authorization", "Bearer" + token);
+            headers.set("Authorization", "Bearer " + token);
         }
 
         List<Issue2> issues = new ArrayList<>();
@@ -93,12 +97,14 @@ public class IssueService {
             page++;
         }
 
-        List<Issue> newIssues = new ArrayList<>();
-        for(Issue2 i: issues){
-            Issue newIssue = ParsingModels.parseIssue(i);
-            newIssues.add(newIssue);
+        List<Issue> res = new ArrayList<>();
+
+        for (Issue2 issue: issues) {
+            Issue newIssue = ParsingModels.parseIssue(issue);
+            newIssue.setComments(commentService.getCommentsPagination(owner, repo, newIssue.getRefId(), maxPages));
+            res.add(newIssue);
         }
 
-        return newIssues;
+        return res;
     }
 }

@@ -27,8 +27,6 @@ public class ProjectService {
     CommitService commitService;
     @Autowired
     IssueService issueService;
-    @Autowired
-    CommentService commentService;
 
     @Value("${githubminer.token}")
     private String token;
@@ -64,16 +62,8 @@ public class ProjectService {
         if (sinceIssues <= 0) {
             sinceIssues = sinceIssuesDefault;
         }
-
         List<Commit> commits = commitService.getCommitsPagination(owner, repo, sinceCommits, maxPages);
-
         List<Issue> issues = issueService.getIssuesPagination(owner, repo, sinceCommits, maxPages);
-
-        for(Issue issue: issues) {
-            Integer id = Integer.valueOf(issue.getRefId());
-            List<Comment> comments = commentService.getCommentsPagination(owner, repo, id, maxPages);
-            issue.setComments(comments);
-        }
 
         newProject.setCommits(commits);
         newProject.setIssues(issues);

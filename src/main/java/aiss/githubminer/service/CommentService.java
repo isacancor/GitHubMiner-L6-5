@@ -57,11 +57,11 @@ public class CommentService {
 
 
     //POST baseUri/{owner}/{repoName}[?sinceCommits=5&sinceIssues=30&maxPages=2]
-    public List<Comment> getCommentsPagination(String owner, String repo, int issueId, int maxPages)
+    public List<Comment> getCommentsPagination(String owner, String repo, String issueId, int maxPages)
             throws HttpClientErrorException {
         HttpHeaders headers = new HttpHeaders();
         if(token!="") {
-            headers.set("Authorization", "Bearer" + token);
+            headers.set("Authorization", "Bearer " + token);
         }
 
         List<Comment2> comments = new ArrayList<>();

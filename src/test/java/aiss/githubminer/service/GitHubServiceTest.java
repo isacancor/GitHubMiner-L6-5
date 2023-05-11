@@ -49,7 +49,7 @@ class GitHubServiceTest {
 
     final String owner = "spring-projects";
     final String repo = "spring-framework";
-    final Integer issueId = 30340;
+    final String issueId = "30340";
 
     @Test
     void getProjectAllData() {

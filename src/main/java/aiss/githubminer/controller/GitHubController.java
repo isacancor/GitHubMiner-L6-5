@@ -50,7 +50,7 @@ public class GitHubController {
         return res;
     }
 
-    // POST /githubminer/{id}[?sinceCommits=5&sinceIssues=30&maxPages=2]
+    // POST /githubminer/{owner}/{repoName}[?sinceCommits=5&sinceIssues=30&maxPages=2]
     @Operation(
             summary = "Send a GitHub Project to GitMiner",
             description = "Get a GitHub Project to GitMiner by specifying some parameters",
@@ -70,6 +70,7 @@ public class GitHubController {
                                @Parameter(description = "number of past days to search for commits") @RequestParam int sinceCommits,
                                @Parameter(description = "number of past days to search for issues") @RequestParam int sinceIssues,
                                @Parameter(description = "max number of pages to search") @RequestParam int maxPages) {
+
         String uri = "http://localhost:8080/gitminer/projects";
         Project res = projectService.getProjectAllData(owner, repo, sinceCommits, sinceIssues, maxPages);
 
