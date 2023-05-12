@@ -1,12 +1,11 @@
 package aiss.githubminer.service;
 
+import aiss.githubminer.exception.ProjectNotFoundException;
 import aiss.githubminer.githubmodel.Project2;
-import aiss.githubminer.model.Comment;
 import aiss.githubminer.model.Commit;
 import aiss.githubminer.model.Issue;
 import aiss.githubminer.model.Project;
 import aiss.githubminer.utils.ParsingModels;
-import exception.ProjectNotFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,7 +44,7 @@ public class ProjectService {
             .getLogger(ProjectService.class);
 
     public Project getProjectAllData(String owner, String repo,
-                                     Integer sinceCommits, Integer sinceIssues, Integer maxPages) {
+                                     Integer sinceCommits, Integer sinceIssues, Integer maxPages) throws ProjectNotFoundException {
 
         Project newProject = getProject(owner, repo);
 
@@ -70,7 +69,7 @@ public class ProjectService {
     }
 
 
-    public Project getProject(String owner, String repo) {
+    public Project getProject(String owner, String repo) throws ProjectNotFoundException {
         HttpHeaders headers = new HttpHeaders();
 
         // Setting token header
@@ -85,6 +84,10 @@ public class ProjectService {
 
         ResponseEntity<Project2> projectRE = restTemplate
                 .exchange(uri, HttpMethod.GET, request, Project2.class);
+
+        if (projectRE.getStatusCode().equals(HttpStatus.NOT_FOUND)) {
+            throw new ProjectNotFoundException();
+        }
 
         Project2 oldProject = projectRE.getBody();
         Project project = ParsingModels.parseProject(oldProject);

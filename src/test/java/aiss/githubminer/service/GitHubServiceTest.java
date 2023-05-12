@@ -1,14 +1,13 @@
 package aiss.githubminer.service;
 
+import aiss.githubminer.exception.ProjectNotFoundException;
 import aiss.githubminer.githubmodel.Comment2;
 import aiss.githubminer.githubmodel.Commit2;
 import aiss.githubminer.githubmodel.Issue2;
-import aiss.githubminer.githubmodel.Project2;
 import aiss.githubminer.model.Comment;
 import aiss.githubminer.model.Commit;
 import aiss.githubminer.model.Issue;
 import aiss.githubminer.model.Project;
-import exception.ProjectNotFoundException;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -53,7 +52,7 @@ class GitHubServiceTest {
     final String issueId = "30340";
 
     @Test
-    void getProjectAllData() {
+    void getProjectAllData() throws ProjectNotFoundException {
         Project project = projectService.getProjectAllData(owner,repo,sinceCommitsDefault,
                 sinceIssuesDefault,maxPagesDefault);
         assertEquals(project.getId(), "1148753", "The id doesn't match");
@@ -69,7 +68,7 @@ class GitHubServiceTest {
     // --------------------------------------------------------------------------------------------------------------
     // Project
     @Test
-    void getProject() {
+    void getProject() throws ProjectNotFoundException {
         Project project = projectService.getProject(owner, repo);
         assertEquals(project.getId(), "1148753", "The id does not match");
         assertEquals(project.getName(), "spring-framework", "The name does not match");

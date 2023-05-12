@@ -1,11 +1,8 @@
 package aiss.githubminer.controller;
 
+import aiss.githubminer.exception.ProjectNotFoundException;
 import aiss.githubminer.model.Project;
-import aiss.githubminer.service.CommentService;
-import aiss.githubminer.service.CommitService;
-import aiss.githubminer.service.IssueService;
 import aiss.githubminer.service.ProjectService;
-import exception.ProjectNotFoundException;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -46,7 +43,8 @@ public class GitHubController {
                               @Parameter(description = "name of the project repository") @PathVariable String repo,
                               @Parameter(description = "number of past days to search for commits") @RequestParam int sinceCommits,
                               @Parameter(description = "number of past days to search for issues") @RequestParam int sinceIssues,
-                              @Parameter(description = "max number of pages to search") @RequestParam int maxPages) {
+                              @Parameter(description = "max number of pages to search") @RequestParam int maxPages)
+            throws ProjectNotFoundException {
         Project res = projectService.getProjectAllData(owner, repo, sinceCommits, sinceIssues, maxPages);
         return res;
     }
@@ -70,7 +68,8 @@ public class GitHubController {
                                @Parameter(description = "name of the project repository") @PathVariable String repo,
                                @Parameter(description = "number of past days to search for commits") @RequestParam int sinceCommits,
                                @Parameter(description = "number of past days to search for issues") @RequestParam int sinceIssues,
-                               @Parameter(description = "max number of pages to search") @RequestParam int maxPages) {
+                               @Parameter(description = "max number of pages to search") @RequestParam int maxPages)
+            throws ProjectNotFoundException {
 
         String uri = "http://localhost:8080/gitminer/projects";
         Project res = projectService.getProjectAllData(owner, repo, sinceCommits, sinceIssues, maxPages);
