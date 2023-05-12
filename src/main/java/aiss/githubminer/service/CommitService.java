@@ -34,15 +34,6 @@ public class CommitService {
     @Value("${githubminer.baseuri}")
     private String baseUri;
 
-    @Value("${gitminer.sincecommits}")
-    private int sinceCommitsDefault;
-
-    @Value("${gitminer.sinceissues}")
-    private int sinceIssuesDefault;
-
-    @Value("${gitminer.maxpages}")
-    private int maxPagesDefault;
-
     private static Logger logger = LoggerFactory
             .getLogger(CommitService.class);
 

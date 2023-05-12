@@ -45,7 +45,6 @@ public class ProjectService {
 
     public Project getProjectAllData(String owner, String repo,
                                      Integer sinceCommits, Integer sinceIssues, Integer maxPages) throws ProjectNotFoundException {
-
         Project newProject = getProject(owner, repo);
 
         if(maxPages <= 0){
@@ -59,8 +58,9 @@ public class ProjectService {
         if (sinceIssues <= 0) {
             sinceIssues = sinceIssuesDefault;
         }
+
         List<Commit> commits = commitService.getCommitsPagination(owner, repo, sinceCommits, maxPages);
-        List<Issue> issues = issueService.getIssuesPagination(owner, repo, sinceCommits, maxPages);
+        List<Issue> issues = issueService.getIssuesPagination(owner, repo, sinceIssues, maxPages);
 
         newProject.setCommits(commits);
         newProject.setIssues(issues);
@@ -68,10 +68,8 @@ public class ProjectService {
         return newProject;
     }
 
-
     public Project getProject(String owner, String repo) throws ProjectNotFoundException {
         HttpHeaders headers = new HttpHeaders();
-
         // Setting token header
         if (token != "") {
             headers.set("Authorization", "Bearer " + token);
@@ -79,21 +77,17 @@ public class ProjectService {
 
         // Send request
         HttpEntity<Project2[]> request = new HttpEntity<>(null, headers);
-
         String uri = baseUri + owner + "/" + repo;
 
-        ResponseEntity<Project2> projectRE;
+        Project2 oldProject;
         try {
-            projectRE = restTemplate
-                    .exchange(uri, HttpMethod.GET, request, Project2.class);
+            oldProject = restTemplate
+                    .exchange(uri, HttpMethod.GET, request, Project2.class).getBody();
         } catch (Exception e) {
             throw new ProjectNotFoundException();
         }
 
-
-        Project2 oldProject = projectRE.getBody();
         Project project = ParsingModels.parseProject(oldProject);
-
         return project;
     }
 }

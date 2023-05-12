@@ -135,8 +135,20 @@ class GitHubServiceTest {
         List<Issue> issues = issueService.getIssuesPagination(owner, repo, since, maxPage);
 
         ZonedDateTime sinceIssue = ZonedDateTime.now().minusDays(since);
+        /*
         for( Issue issue: issues) {
             ZonedDateTime date = ZonedDateTime.parse(issue.getUpdatedAt());
+            assertTrue(date.isAfter(sinceIssue),
+                    "The issue date can not be earlier than the specified date in sinceIssue");
+        }
+        */
+        for( Issue issue: issues) {
+            ZonedDateTime date;
+            if(issue.getClosedAt() == null){
+                date = ZonedDateTime.parse(issue.getUpdatedAt());
+            } else {
+                date = ZonedDateTime.parse(issue.getClosedAt());
+            }
             assertTrue(date.isAfter(sinceIssue),
                     "The issue date can not be earlier than the specified date in sinceIssue");
         }

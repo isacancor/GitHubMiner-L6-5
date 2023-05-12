@@ -32,18 +32,8 @@ public class CommentService {
     @Value("${githubminer.baseuri}")
     private String baseUri;
 
-    @Value("${gitminer.sincecommits}")
-    private int sinceCommitsDefault;
-
-    @Value("${gitminer.sinceissues}")
-    private int sinceIssuesDefault;
-
-    @Value("${gitminer.maxpages}")
-    private int maxPagesDefault;
-
     private static Logger logger = LoggerFactory
             .getLogger(CommentService.class);
-
 
     public ResponseEntity<Comment2[]> getComments(String uri, HttpHeaders headers){
         // Send request
@@ -54,7 +44,6 @@ public class CommentService {
 
         return response;
     }
-
 
     //POST baseUri/{owner}/{repoName}[?sinceCommits=5&sinceIssues=30&maxPages=2]
     public List<Comment> getCommentsPagination(String owner, String repo, String issueId, int maxPages)

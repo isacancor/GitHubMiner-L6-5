@@ -5,8 +5,6 @@ import aiss.githubminer.model.*;
 
 public class ParsingModels {
 
-    // TODO: create classes to parse from githubmodels to aiss models
-
     public static Project parseProject(Project2 oldProject){
         Project newProject = new Project();
         newProject.setId(oldProject.getId());
