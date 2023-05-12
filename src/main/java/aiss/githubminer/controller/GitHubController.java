@@ -36,7 +36,7 @@ public class GitHubController {
                     content = {@Content(schema = @Schema(implementation = Project.class), mediaType = "application/json")}),
             @ApiResponse(responseCode = "404",
                     description = "Project not found",
-                    content = {@Content(schema = @Schema())}),
+                    content = {@Content(schema = @Schema())})
     })
     @GetMapping("/{owner}/{repo}")
     public Project getProject(@Parameter(description = "name of the project owner") @PathVariable String owner,
@@ -61,6 +61,9 @@ public class GitHubController {
             @ApiResponse(responseCode = "400",
                     description = "Project could not be sent",
                     content = {@Content(schema = @Schema())}),
+            @ApiResponse(responseCode = "404",
+                    description = "Project not found",
+                    content = {@Content(schema = @Schema())})
     })
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/{owner}/{repo}")

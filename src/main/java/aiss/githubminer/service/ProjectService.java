@@ -73,7 +73,7 @@ public class ProjectService {
         HttpHeaders headers = new HttpHeaders();
 
         // Setting token header
-        if(token != ""){
+        if (token != "") {
             headers.set("Authorization", "Bearer " + token);
         }
 
@@ -82,12 +82,14 @@ public class ProjectService {
 
         String uri = baseUri + owner + "/" + repo;
 
-        ResponseEntity<Project2> projectRE = restTemplate
-                .exchange(uri, HttpMethod.GET, request, Project2.class);
-
-        if (projectRE.getStatusCode().equals(HttpStatus.NOT_FOUND)) {
+        ResponseEntity<Project2> projectRE;
+        try {
+            projectRE = restTemplate
+                    .exchange(uri, HttpMethod.GET, request, Project2.class);
+        } catch (Exception e) {
             throw new ProjectNotFoundException();
         }
+
 
         Project2 oldProject = projectRE.getBody();
         Project project = ParsingModels.parseProject(oldProject);
