@@ -41,9 +41,12 @@ public class GitHubController {
     @GetMapping("/{owner}/{repo}")
     public Project getProject(@Parameter(description = "name of the project owner") @PathVariable String owner,
                               @Parameter(description = "name of the project repository") @PathVariable String repo,
-                              @Parameter(description = "number of past days to search for commits") @RequestParam int sinceCommits,
-                              @Parameter(description = "number of past days to search for issues") @RequestParam int sinceIssues,
-                              @Parameter(description = "max number of pages to search") @RequestParam int maxPages)
+                              @Parameter(description = "number of past days to search for commits")
+                                  @RequestParam(required = false) int sinceCommits,
+                              @Parameter(description = "number of past days to search for issues")
+                                  @RequestParam(required = false)  int sinceIssues,
+                              @Parameter(description = "max number of pages to search")
+                                  @RequestParam(required = false)  int maxPages)
             throws ProjectNotFoundException {
         Project res = projectService.getProjectAllData(owner, repo, sinceCommits, sinceIssues, maxPages);
         return res;
@@ -69,13 +72,18 @@ public class GitHubController {
     @PostMapping("/{owner}/{repo}")
     public Project postProject(@Parameter(description = "name of the project owner") @PathVariable String owner,
                                @Parameter(description = "name of the project repository") @PathVariable String repo,
-                               @Parameter(description = "number of past days to search for commits") @RequestParam int sinceCommits,
-                               @Parameter(description = "number of past days to search for issues") @RequestParam int sinceIssues,
-                               @Parameter(description = "max number of pages to search") @RequestParam int maxPages)
+                               @Parameter(description = "number of past days to search for commits")
+                                   @RequestParam(required = false)  int sinceCommits,
+                               @Parameter(description = "number of past days to search for issues")
+                                   @RequestParam(required = false)  int sinceIssues,
+                               @Parameter(description = "max number of pages to search")
+                                   @RequestParam(required = false)  int maxPages)
             throws ProjectNotFoundException {
 
         String uri = "http://localhost:8080/gitminer/projects";
         Project res = projectService.getProjectAllData(owner, repo, sinceCommits, sinceIssues, maxPages);
+
+        System.out.println(res);
 
         ResponseEntity<Project> response = restTemplate
                 .postForEntity(uri, res, Project.class);
