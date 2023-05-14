@@ -15,6 +15,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 
+import java.awt.print.PrinterJob;
 import java.time.ZonedDateTime;
 import java.util.Arrays;
 import java.util.List;
@@ -62,6 +63,13 @@ class GitHubServiceTest {
         assertNotNull(project.getIssues(), "The list of issues is null");
 
         project.prettyPrint();
+
+        try {
+            Project project2 = projectService.getProjectAllData("spring-fram", "spring-proj",sinceCommitsDefault,
+                    sinceIssuesDefault,maxPagesDefault);
+        } catch (Exception e) {
+            assertTrue(e.getClass().equals(ProjectNotFoundException.class), "ProjectNotFoundException not thrown");
+        }
     }
 
 
@@ -75,6 +83,12 @@ class GitHubServiceTest {
         assertEquals(project.getWebUrl(), "https://github.com/spring-projects/spring-framework",
                 "The url does not match");
         System.out.println(project);
+
+        try {
+            Project project2 = projectService.getProject("spring-fram", "spring-proj");
+        } catch (Exception e) {
+            assertTrue(e.getClass().equals(ProjectNotFoundException.class), "ProjectNotFoundException not thrown");
+        }
     }
 
     // --------------------------------------------------------------------------------------------------------------
@@ -135,18 +149,6 @@ class GitHubServiceTest {
         List<Issue> issues = issueService.getIssuesPagination(owner, repo, since, maxPage);
 
         ZonedDateTime sinceIssue = ZonedDateTime.now().minusDays(since);
-        /*
-        for( Issue issue: issues) {
-            ZonedDateTime date;
-            if (issue.getUpdatedAt() == null) {
-                date = ZonedDateTime.parse(issue.getCreatedAt());
-            } else {
-                date = ZonedDateTime.parse(issue.getUpdatedAt());
-            }
-            assertTrue(date.isAfter(sinceIssue),
-                    "The issue date can not be earlier than the specified date in sinceIssue");
-        }
-        */
         for( Issue issue: issues) {
             ZonedDateTime date;
             if(issue.getClosedAt() == null){
