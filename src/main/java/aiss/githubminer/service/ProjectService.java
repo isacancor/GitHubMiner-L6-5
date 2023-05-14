@@ -47,15 +47,15 @@ public class ProjectService {
                                      Integer sinceCommits, Integer sinceIssues, Integer maxPages) throws ProjectNotFoundException {
         Project newProject = getProject(owner, repo);
 
-        if(maxPages <= 0){
+        if(maxPages == null || maxPages <= 0){
             maxPages = maxPagesDefault;
         }
 
-        if (sinceCommits <= 0) {
+        if (sinceCommits == null || sinceCommits <= 0) {
             sinceCommits = sinceCommitsDefault;
         }
 
-        if (sinceIssues <= 0) {
+        if (sinceIssues == null || sinceIssues <= 0) {
             sinceIssues = sinceIssuesDefault;
         }
 
