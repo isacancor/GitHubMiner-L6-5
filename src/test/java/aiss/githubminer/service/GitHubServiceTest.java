@@ -137,7 +137,12 @@ class GitHubServiceTest {
         ZonedDateTime sinceIssue = ZonedDateTime.now().minusDays(since);
         /*
         for( Issue issue: issues) {
-            ZonedDateTime date = ZonedDateTime.parse(issue.getUpdatedAt());
+            ZonedDateTime date;
+            if (issue.getUpdatedAt() == null) {
+                date = ZonedDateTime.parse(issue.getCreatedAt());
+            } else {
+                date = ZonedDateTime.parse(issue.getUpdatedAt());
+            }
             assertTrue(date.isAfter(sinceIssue),
                     "The issue date can not be earlier than the specified date in sinceIssue");
         }

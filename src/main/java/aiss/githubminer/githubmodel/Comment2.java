@@ -23,7 +23,7 @@ public class Comment2 {
     private String updatedAt;
 
     @JsonProperty("user")
-    private User author;
+    private User2 author;
 
     @JsonProperty("id")
     public String getId() {
@@ -36,11 +36,11 @@ public class Comment2 {
     }
 
     @JsonProperty("user")
-    public User getAuthor() {
+    public User2 getAuthor() {
         return author;
     }
     @JsonProperty("user")
-    public void setUser(User user) {
+    public void setUser(User2 user) {
         this.author = user;
     }
 

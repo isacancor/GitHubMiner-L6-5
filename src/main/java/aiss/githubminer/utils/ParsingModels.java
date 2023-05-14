@@ -32,6 +32,7 @@ public class ParsingModels {
     public static User parseUser(User2 oldUser){
         User newUser = new User();
         newUser.setId(oldUser.getId());
+        newUser.setName(oldUser.getUsername());
         newUser.setUsername(oldUser.getUsername());
         newUser.setAvatarUrl(oldUser.getAvatarUrl());
         newUser.setWebUrl(oldUser.getHtmlUrl());
@@ -65,7 +66,7 @@ public class ParsingModels {
         Comment newComment = new Comment();
         newComment.setId(oldComment.getId());
         newComment.setBody(oldComment.getBody());
-        newComment.setAuthor(oldComment.getAuthor());
+        newComment.setAuthor(parseUser(oldComment.getAuthor()));
         newComment.setCreatedAt(oldComment.getCreated_at());
         newComment.setUpdatedAt(oldComment.getUpdatedAt());
         return newComment;
